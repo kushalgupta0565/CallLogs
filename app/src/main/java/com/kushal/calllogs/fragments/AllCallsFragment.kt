@@ -8,7 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.kushal.calllogs.R
 import com.kushal.calllogs.adapter.CallLogsAdapter
+import com.kushal.calllogs.model.CallLogData
 import com.kushal.calllogs.utils.CallLogsUtils
+import rx.Observable
+import rx.Scheduler
+import rx.Subscriber
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
+import java.util.ArrayList
 
 class AllCallsFragment : Fragment() {
 
@@ -32,11 +39,32 @@ class AllCallsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        logsRunnable = Runnable { loadIncomingLogs() }
+
+        val observable = Observable<ArrayList<CallLogData>>()
+        observable
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(object : Subscriber<ArrayList<CallLogData>>() {
+                override fun onNext(dataList: ArrayList<CallLogData>) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+
+                override fun onCompleted() {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+
+                override fun onError(e: Throwable) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+
+            })
+
+
+        logsRunnable = Runnable { loadAllLogs() }
         logsRunnable!!.run()
     }
 
-    private fun loadIncomingLogs() {
+    private fun loadAllLogs() {
         val callLogs = CallLogsUtils(context!!).getAllCallLogs()
         rv_all_calls_logs.adapter = CallLogsAdapter(callLogs)
     }

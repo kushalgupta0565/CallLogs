@@ -31,12 +31,12 @@ class OutgoingCallFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        logsRunnable = Runnable { loadIncomingLogs() }
+        logsRunnable = Runnable { loadOutgoingLogs() }
         logsRunnable!!.run()
     }
 
-    private fun loadIncomingLogs() {
-        val callLogs = CallLogsUtils(context!!).getMissedCallLogs()
+    private fun loadOutgoingLogs() {
+        val callLogs = CallLogsUtils(context!!).getOutgoingCallLogs()
         rv_outgoing_logs.adapter = CallLogsAdapter(callLogs)
     }
 }

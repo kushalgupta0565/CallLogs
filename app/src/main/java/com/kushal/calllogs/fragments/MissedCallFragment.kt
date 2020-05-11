@@ -32,11 +32,11 @@ class MissedCallFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        logsRunnable = Runnable { loadIncomingLogs() }
+        logsRunnable = Runnable { loadMissedLogs() }
         logsRunnable!!.run()
     }
 
-    private fun loadIncomingLogs() {
+    private fun loadMissedLogs() {
         val callLogs = CallLogsUtils(context!!).getMissedCallLogs()
         rv_missed_logs.adapter = CallLogsAdapter(callLogs)
     }
